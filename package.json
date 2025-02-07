@@ -1,0 +1,17 @@
+{
+  "name": "filmoteka",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/pages/*.html",
+    "build": "parcel build src/pages/*.html"
+  },
+  "devDependencies": {
+    "parcel": "^2.13.3",
+    "posthtml-include": "^2.0.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
