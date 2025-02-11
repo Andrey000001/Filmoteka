@@ -1,10 +1,9 @@
-<ul>
+<ul >
   {{#each this}}
-    <li>
+    <li data-press="movie" id="{{id}}">
         <img src="https://image.tmdb.org/t/p/w200{{this.poster_path}}">
         <p>{{title}}{{#unless title}}{{original_name}}{{/unless}}</p>
-        <p>{{#each
-            }}{{/each}}</p>
+       <p>{{genreNames}}<span>  | {{release_date}}</span></p>
     </li>
   {{/each}}
 </ul>

@@ -18,6 +18,17 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader",
+        ],
+      },
+      {
         test: /\.html$/,
         include: path.resolve(__dirname, "src"),
         exclude: /node_modules/,
@@ -25,7 +36,7 @@ module.exports = {
           {
             loader: 'html-loader',
             options: {
-              minimize: false, // Можно отключить минификацию в режиме разработки
+              minimize: false, 
             }
           },
           {
@@ -43,9 +54,9 @@ module.exports = {
         test: /\.hbs$/,
         use: [
           {
-            loader: 'handlebars-loader', // ✅ Исправлено название
+            loader: 'handlebars-loader', 
             options: {
-              partialDirs: path.resolve(__dirname, "src/templates") // ✅ Исправлено "partialDirs"
+              partialDirs: path.resolve(__dirname, "src/templates") 
             }
           }
         ]

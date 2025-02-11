@@ -1,12 +1,13 @@
-import { fetchAllMovies } from '../api/moviesApi';
+import {fetchMovieWithGenres } from '../api/moviesApi';
 import refs from '../utils/refs';
 import mainTpl from '../../templates/main.hbs';
 
-renderAllMovies();
+renderAllMovies()
 
 async function renderAllMovies() {
-    const movies = await fetchAllMovies();
-    const result = mainTpl(movies)
+    const moviesDetails= await fetchMovieWithGenres();
+    const result = mainTpl(moviesDetails)
     refs.main.innerHTML = result
+    
 }
 
