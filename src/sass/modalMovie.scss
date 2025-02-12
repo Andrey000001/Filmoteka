@@ -8,9 +8,11 @@
     height: 100vh;
     justify-content: center;
     align-items: center;
-
-
+    background-color: black;
 }
 .backdrop.is-open { 
     display: flex;
+}
+.page-button.is-active-btn {
+    background-color: green;
 }

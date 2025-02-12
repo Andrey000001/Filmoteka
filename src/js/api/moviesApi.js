@@ -24,7 +24,7 @@ export const fetchMovieById = async (id) => {
     return data
 
 }
-export const fetchMovieWithGenres = async() => {
+export const fetchMovieWithGenres = async () => {
     const [movies,genres] = await Promise.all([fetchAllMovies(),fetchGenres()])
     const genreMap = new Map(genres.map(g => [g.id ,g.name]))
     return movies.map(movie => ({ ...movie ,

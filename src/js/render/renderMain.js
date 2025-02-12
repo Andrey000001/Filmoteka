@@ -5,8 +5,10 @@ import mainTpl from '../../templates/main.hbs';
 renderAllMovies()
 
 async function renderAllMovies() {
-    const moviesDetails= await fetchMovieWithGenres();
+    const moviesDetails = await fetchMovieWithGenres();
+    console.log(moviesDetails);
     const result = mainTpl(moviesDetails)
+    console.log(refs.main);
     refs.main.innerHTML = result
     
 }

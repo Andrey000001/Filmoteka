@@ -6,5 +6,5 @@
     searchMovie: document.querySelector('[data-serch="movie"]'),
     main: document.querySelector('#main'),
     backdrop: document.querySelector('.backdrop'),
-    modalContent: document.querySelector('.modal-content')
+    modalContent: document.querySelector('.modal-content'),
 }
