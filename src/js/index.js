@@ -1,9 +1,9 @@
-import '../../src/sass/modalMovie.scss'
+import '../../src/sass/modalMovie.scss';
 // Header
-import './components/header'
-//Main 
-import './components/main'
-// Modal 
-import './components/movieModal'
+import './components/header';
+//Main
+import './components/main';
+// Modal
+import './components/movieModal';
 //Plagination
-import './components/plagination'
+import './components/pagination';

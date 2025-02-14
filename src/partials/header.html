@@ -1,28 +1,28 @@
 <header>
+  <div>
     <div>
-        <div>
-            <svg>
-                <path></path>
-            </svg>
-            <h1>Filmoteka</h1>
-        </div>
-        <ul>
-            <li><a data-action="Home">Home</a></li>
-            <li><a data-action="Library"s>Library</a></li>
-        </ul>
+      <svg>
+        <path></path>
+      </svg>
+      <h1>Filmoteka</h1>
     </div>
-    <div class="header-content">
-        <div data-serch="movie">
-            <input type="text" placeholder="Movie search...">
-            <button>
-                <svg>
-                    <path></path>
-                </svg>
-            </button>
-        </div>
-        <div style="display: none;" data-library='Controls'>
-            <button type="button" >WATCHED</button>
-            <button type="button" >QUEUE</button>
-        </div>
+    <ul>
+      <li><a data-action="Home">Home</a></li>
+      <li><a data-action="Library" s>Library</a></li>
+    </ul>
+  </div>
+  <div class="header-content">
+    <div data-serch="movie">
+      <input type="text" placeholder="Movie search..." name="movieName" />
+      <button id="searchMovieByName">
+        <svg>
+          <path></path>
+        </svg>
+      </button>
     </div>
+    <div style="display: none" data-library="Controls">
+      <button type="button">WATCHED</button>
+      <button type="button">QUEUE</button>
+    </div>
+  </div>
 </header>
