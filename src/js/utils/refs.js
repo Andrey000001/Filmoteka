@@ -12,4 +12,7 @@ export default {
   submitMovieByName: document.querySelector('#searchMovieByName'),
   movieName: document.querySelector('[name="movieName"]'),
   modalClose: document.querySelector('[data-modal="close"]'),
+  watched: document.querySelector('[data-action="watched"]'),
+  quequ: document.querySelector('[data-action="queue"]'),
+  libraryControls: document.querySelector('#library-controls'),
 };

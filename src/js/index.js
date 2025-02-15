@@ -6,4 +6,4 @@ import './components/main';
 // Modal
 import './components/movieModal';
 //Plagination
-import './components/pagination';
+import './components/pagination/pagination';

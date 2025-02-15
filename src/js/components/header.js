@@ -1,32 +1,46 @@
 import refs from '../utils/refs';
 import { renderAllMovies } from '../render/renderMain';
-import { renderLibraryMovies } from '../render/renderMain';
+import { activePage, setActivePage, getActivePage } from '../utils/state';
+import {
+  renderLibraryQueue,
+  renderLibraryWatched,
+} from './pagination/pagination';
+refs.homeBtn.addEventListener('click', handleHomeClick);
+refs.libraryBtn.addEventListener('click', handleLibraryClick);
+refs.watched.addEventListener('click', onClickWatched);
+refs.quequ.addEventListener('click', onClickQueue);
+
+function onClickWatched() {
+  renderLibraryWatched();
+}
+function onClickQueue() {
+  renderLibraryQueue();
+}
 function showeActions(isActive) {
   refs.searchMovie.style.display = isActive ? 'none' : 'flex';
   refs.libraryControls.style.display = isActive ? 'flex' : 'none';
 }
-console.log(refs);
-refs.homeBtn.addEventListener('click', handleHomeClick);
-refs.libraryBtn.addEventListener('click', handleLibraryClick);
-
-let activePage = 'Home';
 
 function handleHomeClick() {
   if (activePage === 'Home') return;
-  renderAllMovies();
+
+  setActivePage('Home'); // Обновляем activePage
+  renderAllMovies(); // Рендерим все фильмы
   refs.homeBtn.classList.add('is-active');
   refs.libraryBtn.classList.remove('is-active');
-  if (activePage === 'Home') return;
-  activePage = 'Home';
   showeActions(false);
 }
-
 function handleLibraryClick() {
+  if (activePage === 'Library') return;
+
   refs.main.innerHTML = '';
   refs.libraryBtn.classList.add('is-active');
   refs.homeBtn.classList.remove('is-active');
-  if (activePage === 'Library') return;
-  activePage = 'Library';
+
+  setActivePage('Library'); // Обновляем activePage
   showeActions(true);
-  renderLibraryMovies();
+
+  // По умолчанию показываем фильмы из "Watched"
+  setActivePage('Watched');
+  renderLibraryWatched();
 }
