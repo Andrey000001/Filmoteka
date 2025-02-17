@@ -5,7 +5,6 @@ import refs from '../../utils/refs';
 import { renderMovies } from '../../render/renderMain';
 import { getFromStorage } from '../../utils/storage';
 import { activePage, setActivePage, getActivePage } from '../../utils/state';
-// import { pagination } from '../utils/state';
 
 let pagination;
 class Pagination {
@@ -144,15 +143,21 @@ class Pagination {
 
 refs.submitMovieByName.addEventListener('click', onSearchClick);
 
+refs.movieName.addEventListener('keydown', onPressEnter);
+function onPressEnter(e) {
+  if (e.key !== 'Enter') return;
+  onSearchClick(e);
+}
 async function onSearchClick(e) {
   e.preventDefault();
   const query = refs.movieName.value.toLowerCase();
 
   if (!query || query === '') {
-    const data = await fetchAllMovies();
-    renderMovies(data.results);
-    pagination.updatePagination(data.total_pages);
-    pagination.showPagination();
+    // return;
+    // const data = await fetchAllMovies();
+    // renderMovies(data.results);
+    // pagination.updatePagination(data.total_pages);
+    // pagination.showPagination();
   } else {
     const data = await fetchByName(query);
 

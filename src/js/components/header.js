@@ -17,15 +17,15 @@ function onClickQueue() {
   renderLibraryQueue();
 }
 function showeActions(isActive) {
-  refs.searchMovie.style.display = isActive ? 'none' : 'flex';
-  refs.libraryControls.style.display = isActive ? 'flex' : 'none';
+  refs.searchMovie.style.display = isActive ? 'inline-block' : 'none';
+  refs.libraryControls.style.display = isActive ? 'inline-block' : 'none';
 }
 
 function handleHomeClick() {
   if (activePage === 'Home') return;
 
-  setActivePage('Home'); // Обновляем activePage
-  renderAllMovies(); // Рендерим все фильмы
+  setActivePage('Home');
+  renderAllMovies();
   refs.homeBtn.classList.add('is-active');
   refs.libraryBtn.classList.remove('is-active');
   showeActions(false);
@@ -37,10 +37,9 @@ function handleLibraryClick() {
   refs.libraryBtn.classList.add('is-active');
   refs.homeBtn.classList.remove('is-active');
 
-  setActivePage('Library'); // Обновляем activePage
+  setActivePage('Library');
   showeActions(true);
 
-  // По умолчанию показываем фильмы из "Watched"
   setActivePage('Watched');
   renderLibraryWatched();
 }

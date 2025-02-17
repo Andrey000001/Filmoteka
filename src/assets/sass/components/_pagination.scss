@@ -1,0 +1,13 @@
+.page-button {
+  padding: 5px 10px;
+  margin: 2px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.page-button.is-active-btn {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}

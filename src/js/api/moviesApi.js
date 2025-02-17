@@ -78,3 +78,14 @@ export async function fetchByName(query, page = 1) {
   );
   return response.json();
 }
+
+export const fetchVideoByMovie = async id => {
+  console.log(id);
+
+  const resp = await fetch(
+    `${BASE_URL}/movie/${id}/videos?language=en-US`,
+    option
+  );
+  const data = await resp.json();
+  return data;
+};

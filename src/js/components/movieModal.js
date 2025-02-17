@@ -1,5 +1,5 @@
 import refs from '../utils/refs';
-import { fetchMovieByIdWithGenres } from '../api/moviesApi';
+import { fetchMovieByIdWithGenres, fetchVideoByMovie } from '../api/moviesApi';
 import modalRenderEl from '../../templates/modalMovie.hbs';
 import { saveToStorage, getFromStorage } from '../utils/storage';
 
@@ -11,7 +11,7 @@ function onModalClick(e) {
   }
 }
 
-function onModalClose(e) {
+function onModalClose() {
   refs.backdrop.classList.remove('is-open');
 }
 document.addEventListener('click', onClickMovie);
@@ -26,8 +26,29 @@ async function onClickMovie(e) {
     document.addEventListener('keydown', handelPressButton);
     const addToWatch = document.querySelector('[data-action="addToWatch"]');
     const addToQueue = document.querySelector('[ data-action="addToQueue"]');
+    const videoByMovie = document.querySelector('.movie-image');
+    videoByMovie.addEventListener('click', () => onClickWatchVideo(data.id));
     addToWatch.addEventListener('click', () => onAddToWatch(data));
     addToQueue.addEventListener('click', () => onAddToQueue(data));
+  }
+}
+async function onClickWatchVideo(id) {
+  const { results } = await fetchVideoByMovie(id);
+
+  const trailer = results.find(
+    video => video.type === 'Trailer' && video.official
+  );
+
+  if (trailer) {
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${trailer.key}`;
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    const containerVideo = refs.containerVideo;
+    containerVideo.innerHTML = '';
+    containerVideo.appendChild(iframe);
+    // containerVideo.width('100%');
+    containerVideo.style.zIndex = 2000;
   }
 }
 function handelPressButton(e) {
@@ -41,8 +62,8 @@ function onAddToWatch(movieData) {
   const watchList = getFromStorage('watchList');
   const isMovieInList = watchList.some(movie => movie.id === movieData.id);
   if (!isMovieInList) {
-    watchList.push(movieData); // Получаем данные фильма (например, из модального окна или API) // Добавляем фильм в список
-    saveToStorage('watchList', watchList); // Сохраняем обновленный список
+    watchList.push(movieData);
+    saveToStorage('watchList', watchList);
     alert('Фильм добавлен в "Watch"');
   } else {
     alert('Фильм уже в списке "Watch"');

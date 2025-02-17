@@ -1,0 +1,13 @@
+.nav-link {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  border-bottom: 1px solid transparent;
+  border-radius: 2px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.nav-link.is-active {
+  border-bottom: 3px solid red;
+  display: inline-block;
+}

@@ -15,4 +15,8 @@ export default {
   watched: document.querySelector('[data-action="watched"]'),
   quequ: document.querySelector('[data-action="queue"]'),
   libraryControls: document.querySelector('#library-controls'),
+  containerVideo: document.querySelector('#movie-video'),
+
+  // Auth
+  startLogin: document.querySelector('#start-login'),
 };

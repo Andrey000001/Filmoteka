@@ -4,13 +4,20 @@
       <svg>
         <path></path>
       </svg>
-      <h1>Filmoteka</h1>
+      <a href="../index.html" style="position: relative">
+        <h1 class="title">Filmoteka</h1>
+      </a>
     </div>
-    <ul>
-      <li><a data-action="Home">Home</a></li>
-      <li><a data-action="Library" s>Library</a></li>
+    <ul class="nav">
+      <li><a data-action="Home" class="nav-link is-active">Home</a></li>
+      <li><a data-action="Library" class="nav-link">Library</a></li>
     </ul>
   </div>
+  <button id="start-login">Log In</button>
+  <form id="log-out" style="display: none">
+    <h2>Log out</h2>
+    <button type="submit">Log out</button>
+  </form>
   <div class="header-content">
     <div data-serch="movie">
       <input type="text" placeholder="Movie search..." name="movieName" />

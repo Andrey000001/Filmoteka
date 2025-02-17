@@ -4,6 +4,7 @@ import { fetchMovieWithGenres } from '../api/moviesApi';
 import { fetchAllMovies } from '../api/moviesApi';
 renderAllMovies();
 import { pagination } from '../utils/state';
+
 export async function renderAllMovies() {
   const moviesDetails = await fetchMovieWithGenres(1); // Загружаем фильмы для первой страницы
   const result = mainTpl(moviesDetails);

@@ -1,0 +1,55 @@
+<div class="backdrop-auth" data-modal>
+  <div class="modal-auth">
+    <button data-modal="close-auth" class="close-auth">✖</button>
+    <div class="modal-content-auth">
+      <form id="login-form">
+        <h2>Log In</h2>
+        <label for="login-email">Email</label>
+        <input
+          type="email"
+          id="login-email"
+          placeholder="Enter your email"
+          required
+        />
+
+        <label for="login-password">Password</label>
+        <input
+          type="password"
+          id="login-password"
+          placeholder="Enter your password"
+          required
+        />
+
+        <button type="submit">Log in</button>
+
+        <p>Not registered yet? <a href="#" id="switch-to-signup">Sign up</a></p>
+      </form>
+
+      <form id="signup-form" style="display: none">
+        <h2>Sign up</h2>
+
+        <label for="signup-email">Email</label>
+        <input
+          type="email"
+          id="signup-email"
+          placeholder="Enter your email"
+          required
+        />
+
+        <label for="signup-password">Password</label>
+        <input
+          type="password"
+          id="signup-password"
+          placeholder="Enter your password"
+          required
+        />
+
+        <button type="submit">Sign up</button>
+
+        <p>
+          Already have an account? <a href="#" id="switch-to-login">Log in</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>

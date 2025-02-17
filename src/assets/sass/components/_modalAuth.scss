@@ -1,0 +1,23 @@
+.backdrop-auth {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.backdrop-auth.active {
+  display: flex;
+}
+
+.modal-auth {
+  position: relative;
+  background-color: #ffff;
+}
+
+.ellipsis {
+  margin: 0 5px;
+}
