@@ -1,6 +1,7 @@
 //Style
 import 'normalize.css';
-import '../../src/assets/main.scss';
+import '../js/components/Button/Button';
+import '../../src/assets/sass/main.scss';
 
 // Header
 import './components/header';

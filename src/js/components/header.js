@@ -1,45 +1,47 @@
 import refs from '../utils/refs';
 import { renderAllMovies } from '../render/renderMain';
-import { activePage, setActivePage, getActivePage } from '../utils/state';
-import {
-  renderLibraryQueue,
-  renderLibraryWatched,
-} from './pagination/pagination';
+import { activePage, controlHomeLibrary, setActivePage } from '../utils/state';
+import { renderLibraryWatched } from './pagination/pagination';
+import { showLogIn } from '../utils/state';
+import { conditions } from '../utils/state';
+import { changeActivePage } from '../utils/state';
 refs.homeBtn.addEventListener('click', handleHomeClick);
 refs.libraryBtn.addEventListener('click', handleLibraryClick);
-refs.watched.addEventListener('click', onClickWatched);
-refs.quequ.addEventListener('click', onClickQueue);
+refs.filmotekaTitle.addEventListener('click', onClickFilmoteka);
 
-function onClickWatched() {
-  renderLibraryWatched();
+const queueBtn = document.querySelector('[data-action="queue"]');
+
+if (queueBtn) {
+  queueBtn.addEventListener('click', () => {
+    queueBtn.classList.add('button--primary');
+  });
 }
-function onClickQueue() {
-  renderLibraryQueue();
-}
-function showeActions(isActive) {
-  refs.searchMovie.style.display = isActive ? 'inline-block' : 'none';
-  refs.libraryControls.style.display = isActive ? 'inline-block' : 'none';
+showLogIn();
+
+function onClickFilmoteka() {
+  if (activePage === 'Home') return;
+  conditions.isOnline = false;
+  controlHomeLibrary('home');
+  setActivePage('Home');
+  changeActivePage();
+  renderAllMovies();
 }
 
 function handleHomeClick() {
   if (activePage === 'Home') return;
-
+ 
+  conditions.isOnline = false;
   setActivePage('Home');
+  changeActivePage();
   renderAllMovies();
-  refs.homeBtn.classList.add('is-active');
-  refs.libraryBtn.classList.remove('is-active');
-  showeActions(false);
+  controlHomeLibrary('home');
 }
+
 function handleLibraryClick() {
   if (activePage === 'Library') return;
-
-  refs.main.innerHTML = '';
-  refs.libraryBtn.classList.add('is-active');
-  refs.homeBtn.classList.remove('is-active');
-
   setActivePage('Library');
-  showeActions(true);
-
-  setActivePage('Watched');
+  changeActivePage();
+  refs.main.innerHTML = '';
+  controlHomeLibrary('library');
   renderLibraryWatched();
 }

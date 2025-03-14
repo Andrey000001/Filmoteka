@@ -1,18 +1,94 @@
+@use './variables' as *;
+
 *,
 *::before,
 *::after {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
-svg {
-  width: 20px;
-  height: 20px;
-}
 
-li {
-  list-style: none;
+body {
+  font-family: Roboto;
+  font-size: 12px;
+  line-height: 1.3;
+  color: $text-white;
+  background-color: $text-white;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
-
+.no-scroll {
+  overflow: hidden; /* Запрещает прокрутку */
+  position: fixed; /* Фиксирует страницу на текущей позиции */
+  width: 100%; /* Сохраняет ширину страницы */
+}
+/* Стили для изображений */
 img {
-  width: 200px;
+  width: 100%;
+  max-width: 100%; /* Изображения не будут выходить за пределы контейнера */
+  height: 100%; /* Сохраняем пропорции */
+  display: block; /* Убираем лишнее пространство под изображением */
+}
+
+/* Стили для SVG */
+svg {
+  display: inline-block; /* Убираем лишнее пространство вокруг SVG */
+  vertical-align: middle; /* Выравниваем по центру */
+}
+
+/* Стили для списков */
+ul,
+ol {
+  list-style: none; /* Убираем маркеры у всех списков */
+}
+
+/* Стили для ссылок */
+a {
+  text-decoration: none; /* Убираем подчеркивание */
+  color: inherit; /* Наследуем цвет текста */
+}
+video,
+audio {
+  max-width: 100%;
   height: auto;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+/* Стили для кнопок */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Дополнительные глобальные стили */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li {
+  margin: 0;
+  padding: 0;
 }

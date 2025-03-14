@@ -1,0 +1,12 @@
+@use './variables' as *;
+.footer {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: $background-footer;
+  &-text {
+    display: flex;
+    justify-content: center;
+    color: $text-light;
+    font-size: 16px;
+  }
+}

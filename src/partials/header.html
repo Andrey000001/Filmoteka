@@ -1,35 +1,40 @@
-<header>
-  <div>
-    <div>
-      <svg>
-        <path></path>
-      </svg>
-      <a href="../index.html" style="position: relative">
-        <h1 class="title">Filmoteka</h1>
-      </a>
-    </div>
+<header class="header"  id="header">
+ <div class="container">
+    <div class="header-content">
+      <div class="logo">
+        <svg class="logo-icon" width="24" height="24">
+          <use href="#icon-film" fill="red"></use>
+        </svg>
+        <h1 data-click="Filmoteka" class="logo-title">Filmoteka</h1>
+      </div>
     <ul class="nav">
-      <li><a data-action="Home" class="nav-link is-active">Home</a></li>
-      <li><a data-action="Library" class="nav-link">Library</a></li>
+      <li class="nav-item">
+        <a data-action="Home" class="nav-link is-active">Home</a>
+      </li>
+      <li class="nav-item library-item"  >
+        <a class="nav-link" data-action="Library">Library</a>
+      </li>
+      <li class="nav-item logOutItem is-hidden">  
+        <form id="log-out">
+        <button class="nav-link">Log out</button>
+        </form>
+      </li>
+      <li class="nav-item logInItem">  
+          <button id="show-login-auth" type="submit" class="nav-link">Log In</button>
+      </li>
     </ul>
   </div>
-  <button id="start-login">Log In</button>
-  <form id="log-out" style="display: none">
-    <h2>Log out</h2>
-    <button type="submit">Log out</button>
-  </form>
-  <div class="header-content">
-    <div data-serch="movie">
-      <input type="text" placeholder="Movie search..." name="movieName" />
-      <button id="searchMovieByName">
-        <svg>
+ 
+  <div class="block-search">
+    <div data-serch="movie" class="block-search__wrapper">
+      <input class="block-search__input" type="text" placeholder="Movie search..." name="movieName" />
+      <button id="searchMovieByName" class="block-search__button" type="button">
+        <svg width="12" height="12">
           <path></path>
         </svg>
       </button>
     </div>
-    <div style="display: none" class="library-controls" id="library-controls">
-      <button type="button" data-action="watched">WATCHED</button>
-      <button type="button" data-action="queue">QUEUE</button>
+    <div id="library-controls" class="library-controls is-hidden" >
     </div>
   </div>
 </header>

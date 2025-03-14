@@ -1,0 +1,132 @@
+@use './variables' as *;
+
+.main-section {
+  @media (min-width: 1024px) {
+    padding: 60px 0 60px 0;
+  }
+
+  @media (max-width: 1023px) and (min-width: 768px) {
+    padding: 50px 0 50px 0;
+  }
+
+  @media (max-width: 767px) {
+    padding: 20px 0 20px 0;
+  }
+}
+.movies-grid {
+  display: grid;
+  justify-content: center;
+
+  @media (min-width: 1024px) {
+    grid-gap: 16px;
+    row-gap: 32px;
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+  }
+
+  @media (max-width: 1023px) and (min-width: 768px) {
+    grid-template-columns: repeat(2, 336px);
+    grid-gap: 32px;
+    row-gap: 32px;
+  }
+
+  @media (max-width: 767px) {
+    grid-gap: 20px;
+    grid-template-columns: repeat(1, minmax(230px, 1fr));
+  }
+}
+
+
+.movie {
+  height: 100%;
+  width: 100%;
+  @media (min-width: 1024px) {
+    padding-bottom: 3px;
+    max-height: 634px;
+    max-width: 395px;
+  }
+
+  @media (max-width: 1023px) and (min-width: 768px) {
+    max-height: 495px;
+    max-width: 336px;
+  }
+
+  @media (max-width: 767px) {
+    max-height: 443px;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(126, 127, 127, 0.1);
+    border-radius: 5px;
+    transform: scale(0.98);
+    transition:
+      transform 0.3s ease,
+      background-color 0.3s ease;
+  }
+  &__poster {
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 5px 5px 0 0px;
+    @media (min-width: 1024px) {
+      max-width: 395px;
+      max-height: 550px;
+    }
+
+    @media (max-width: 1023px) and (min-width: 768px) {
+      max-width: 336px;
+      max-height: 445px;
+    }
+
+    @media (max-width: 767px) {
+      max-width: 280px;
+      max-height: 400px;
+    }
+  }
+  &-title {
+    font-family: inherit;
+    text-transform: uppercase;
+    color: $text-dark;
+    margin-top: 5px;
+    @media (min-width: 1024px) {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1023px) and (min-width: 768px) {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+  }
+
+  &-genres {
+    font-family: inherit;
+    color: $primary-color;
+    @media (min-width: 1024px) {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1023px) and (min-width: 768px) {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+  }
+}

@@ -5,8 +5,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged,
 } from 'firebase/auth';
+import { renderLibraryWatched } from './components/pagination/pagination';
+import { renderAllMovies } from './render/renderMain';
+import { setActivePage, showLogOut } from './utils/state';
+import { switchToLogin, switchToSingUp, getActivePage } from './utils/state';
+import { controlHomeLibrary } from './utils/state';
+import { showLogIn } from './utils/state';
+import Button from './components/Button/Button';
+import { conditions } from './utils/state';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCk-EdRYRv75Rpw5G8wiAanZ1QdyXFLsl0',
@@ -21,31 +28,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const loginForm = document.getElementById('login-form');
-const signUpForm = document.getElementById('signup-form');
-const logoutForm = document.getElementById('log-out');
-const backdropAuth = document.querySelector('.backdrop-auth');
-const switchToSignup = document.getElementById('switch-to-signup');
-const switchToLogin = document.getElementById('switch-to-login');
+refs.backdropAuth.addEventListener('click', onModalClose);
+refs.switchToSingUpBtn.addEventListener('click', switchToSingUp);
+refs.switchToLogInBtn.addEventListener('click', switchToLogin);
 
-refs.startLogin.addEventListener('click', () => {
-  backdropAuth.classList.add('active');
-});
-// Переключение между формами "Log In" и "Sign Up"
-switchToSignup.addEventListener('click', function (e) {
-  e.preventDefault();
-  loginForm.style.display = 'none';
-  signUpForm.style.display = 'block';
+refs.logInItem.addEventListener('click', () => {
+  refs.backdropAuth.classList.add('active');
+  switchToLogin();
 });
 
-switchToLogin.addEventListener('click', function (e) {
-  e.preventDefault();
-  signUpForm.style.display = 'none';
-  loginForm.style.display = 'block';
-});
-
-// Регистрация нового пользователя
-signUpForm.addEventListener('submit', function (e) {
+function onModalClose(e) {
+  if (e.target.classList === e.currentTarget.classList) {
+    refs.backdropAuth.classList.remove('active');
+  }
+}
+refs.singUpForm.addEventListener('submit', function (e) {
   e.preventDefault();
   const password = document.getElementById('signup-password').value;
   const email = document.getElementById('signup-email').value;
@@ -54,69 +51,59 @@ signUpForm.addEventListener('submit', function (e) {
     .then(userCredential => {
       const user = userCredential.user;
       alert('Registration successful!');
-      signUpForm.reset();
-      backdropAuth.classList.remove('active');
-      return signOut(auth);
+      refs.singUpForm.reset();
+      switchToLogin();
     })
     .catch(error => {
-      loginForm.reset();
+      refs.loginForm.reset();
       const errorCode = error.code;
       const errorMessage = error.message;
       alert('Registration failed: ' + errorMessage);
     });
 });
 
-// Вход пользователя
-loginForm.addEventListener('submit', function (e) {
+refs.loginForm.addEventListener('submit', function (e) {
   e.preventDefault();
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
+  const buttonWatch = new Button('ADD TO WATCH', 'watch', 'watched').render();
+  const buttonQueue = new Button('ADD TO QUEUE', 'queue', 'queue').render();
 
   signInWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
+      conditions.isOnline = true;
+      refs.libraryControls.innerHTML = buttonWatch + buttonQueue;
+      const watchedBtn = document.querySelector('[data-action="watched"]');
+      watchedBtn.classList.add('button--primary');
+      refs.libraryBtn.classList.add('is-active');
+      refs.homeBtn.classList.remove('is-active');
+      setActivePage('Library');
+      controlHomeLibrary('library');
+      renderLibraryWatched();
+      refs.backdropAuth.classList.remove('active');
+      showLogOut();
       const user = userCredential.user;
       alert('Login successful!');
-      loginForm.reset();
-      backdropAuth.classList.remove('active');
     })
     .catch(error => {
-      loginForm.reset();
+      refs.loginForm.reset();
       const errorCode = error.code;
       const errorMessage = error.message;
       alert('Login failed: ' + errorMessage);
     });
 });
 
-// Выход пользователя
-logoutForm.addEventListener('submit', function (e) {
+refs.logOutItem.addEventListener('click', function (e) {
   e.preventDefault();
   signOut(auth)
     .then(() => {
+      conditions.isOnline = false;
+      renderAllMovies();
+      setActivePage('Home');
+      showLogIn();
       alert('Logout successful!');
-      backdropAuth.classList.remove('active');
     })
     .catch(error => {
       alert('Logout failed: ' + error.message);
     });
-});
-
-onAuthStateChanged(auth, user => {
-  if (user) {
-    loginForm.style.display = 'none';
-    signUpForm.style.display = 'none';
-    logoutForm.style.display = 'block';
-    refs.startLogin.style.display = 'none';
-    refs.libraryBtn.style.display = 'inline-block';
-  } else {
-    loginForm.style.display = 'block';
-    signUpForm.style.display = 'none';
-    logoutForm.style.display = 'none';
-    refs.libraryBtn.style.display = 'none';
-    refs.startLogin.style.display = 'flex';
-  }
-});
-
-// Открытие модального окна
-refs.startLogin.addEventListener('click', function () {
-  backdropAuth.classList.add('active');
 });

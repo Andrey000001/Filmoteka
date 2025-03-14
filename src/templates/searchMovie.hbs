@@ -1,6 +1,10 @@
 <ul>
   <li data-press='movie' id='{{id}}'>
-    <img src='https://image.tmdb.org/t/p/w500{{poster_path}}' />
+     <img
+      class='movie-image'
+      src='https://image.tmdb.org/t/p/w500{{poster_path}}{{#unless poster_path}}{{backdrop_path}}{{/unless}}'
+      alt='{{original_title}}'
+    />
     <p>{{title}}{{#unless title}}{{original_name}}{{/unless}}</p>
     <p>{{genreNames}}<span> | {{release_date}}</span></p>
   </li>

@@ -1,13 +1,34 @@
+@use './variables' as *;
 .page-button {
-  padding: 5px 10px;
-  margin: 2px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
+  color: $text-dark;
+  font-size: 12px;
+  border-radius: 5px;
+  background-color: $text-white;
   cursor: pointer;
-}
+  @media (min-width: 1024px) {
+    padding: 13px 16px;
+  }
 
-.page-button.is-active-btn {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
+  @media (max-width: 1023px) and (min-width: 768px) {
+    padding: 13px 16px;
+  }
+
+  @media (max-width: 767px) {
+    padding: 8px 11px;
+
+  }
+
+  &.is-active-btn {
+    color: $text-white;
+    border-color: transparent;
+    background-color: $primary-color;
+  }
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+.ellipsis {
+  color: $text-dark;
 }

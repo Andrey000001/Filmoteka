@@ -1,9 +1,17 @@
-<ul>
-  {{#each this}}
-    <li data-press='movie' id='{{id}}'>
-      <img src='https://image.tmdb.org/t/p/w500{{this.poster_path}}' />
-      <p>{{title}}{{#unless title}}{{original_name}}{{/unless}}</p>
-      <p>{{genreNames}}<span> | {{release_date}}</span></p>
-    </li>
-  {{/each}}
-</ul>
+<div class='main-section'>
+  <div class='container'>
+    <ul class='movies-grid'>
+      {{#each this}}
+        <li data-press='movie' class='movie' id='{{id}}'>
+          <img class='movie__poster' src='{{imageUrl}}' />
+          <p class='movie-title'>
+            {{title}}
+          </p>
+          <p class='movie-genres'>{{genreNames}}<span>
+              |
+              {{release_date}}</span></p>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>

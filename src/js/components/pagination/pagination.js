@@ -4,9 +4,10 @@ import { fetchByName } from '../../api/moviesApi';
 import refs from '../../utils/refs';
 import { renderMovies } from '../../render/renderMain';
 import { getFromStorage } from '../../utils/storage';
-import { activePage, setActivePage, getActivePage } from '../../utils/state';
+import { activePage, getActivePage, setActivePage } from '../../utils/state';
+import { getCurrentQuery, setCurrentQuert } from '../../utils/storage';
+export let pagination;
 
-let pagination;
 class Pagination {
   constructor(containerId, totalPages, onPageChange) {
     this.containerId = document.getElementById(containerId);
@@ -24,12 +25,11 @@ class Pagination {
   updatePagination(totalPages, currentPage = 1) {
     this.totalPages = totalPages;
     this.currentPage = currentPage;
-    this.renderBtns(); // Перерисовываем кнопки пагинации
+    this.renderBtns();
   }
   createPageButtons() {
     const buttons = [];
     const range = 2;
-    const maxVisiblePages = 5;
 
     let start = Math.max(1, this.currentPage - range);
     let end = Math.min(this.totalPages, this.currentPage + range);
@@ -66,7 +66,7 @@ class Pagination {
 
     // Кнопка "вправо" (если не на последней странице)
     if (this.currentPage < this.totalPages) {
-      buttons.push(this.createPageButton(this.currentPage + 1, '→')); // Стрелка вправо
+      buttons.push(this.createPageButton(this.currentPage + 1, '→'));
     }
 
     return buttons;
@@ -78,7 +78,6 @@ class Pagination {
     button.textContent = text !== null ? text : pageNumber; // Если текст передан, используем его, иначе номер страницы
     button.dataset.page = pageNumber;
     button.addEventListener('click', () => this.handleClickButton(pageNumber));
-
     if (pageNumber === this.currentPage) {
       button.classList.add('is-active-btn');
     }
@@ -93,32 +92,43 @@ class Pagination {
     return ellipsis;
   }
 
+  handlePageChange(newPage) {
+    this.currentPage = newPage;
+    window.scroll({ top: 0, behavior: 'smooth' });
+  }
   async handleClickButton(pageNumber) {
-    console.log(`Current page: ${pageNumber}`); // Логируем текущую страницу
-
+    this.handlePageChange(pageNumber);
     this.currentPage = pageNumber;
-    this.renderBtns(); // Перерисовываем кнопки пагинации
+    this.renderBtns();
 
     if (activePage === 'Home') {
-      // Если активная страница - Home, загружаем фильмы для главной страницы
       const movies = await fetchMovieWithGenres(pageNumber);
+      console.log(pageNumber);
+
       renderMoviesByPage(movies);
     } else if (activePage === 'Watched') {
-      const watchedList = getFromStorage('watchList') || []; // Добавляем fallback на случай, если список пуст
+      const watchedList = getFromStorage('watchList') || [];
       const moviesPerPage = 20;
       const startIndex = (pageNumber - 1) * moviesPerPage;
       const endIndex = startIndex + moviesPerPage;
       const moviesToRender = watchedList.slice(startIndex, endIndex);
       console.log(moviesToRender);
-      renderMovies(moviesToRender); // Отрисовываем фильмы
+      renderMovies(moviesToRender);
     } else if (activePage === 'Queue') {
-      // Если активная страница - Queue, загружаем фильмы из "Queue"
-      const queueList = getFromStorage('queueList') || []; // Добавляем fallback на случай, если список пуст
+      const queueList = getFromStorage('queueList') || [];
       const moviesPerPage = 20;
       const startIndex = (pageNumber - 1) * moviesPerPage;
       const endIndex = startIndex + moviesPerPage;
       const moviesToRender = queueList.slice(startIndex, endIndex);
-      renderMovies(moviesToRender); // Отрисовываем фильмы
+      renderMovies(moviesToRender);
+    } else {
+      console.log('we here');
+      setActivePage('serchMoviesByName');
+      const query = getCurrentQuery();
+      const { results } = await fetchByName(query, pageNumber);
+      console.log(results);
+
+      renderMovies(results);
     }
   }
 
@@ -142,33 +152,42 @@ class Pagination {
 }
 
 refs.submitMovieByName.addEventListener('click', onSearchClick);
-
 refs.movieName.addEventListener('keydown', onPressEnter);
+
 function onPressEnter(e) {
   if (e.key !== 'Enter') return;
   onSearchClick(e);
 }
+
 async function onSearchClick(e) {
   e.preventDefault();
   const query = refs.movieName.value.toLowerCase();
 
-  if (!query || query === '') {
-    // return;
-    // const data = await fetchAllMovies();
-    // renderMovies(data.results);
-    // pagination.updatePagination(data.total_pages);
-    // pagination.showPagination();
-  } else {
-    const data = await fetchByName(query);
-
-    if (data.results.length > 0) {
-      renderMoviesByPage(data.results);
-      pagination.updatePagination(data.total_pages || 1);
-      pagination.showPagination();
+  try {
+    if (!query || query === '') {
+      alert('тебе нужно ввести что-то');
+      return;
     } else {
-      refs.main.innerHTML = '<p>Фильмы не найдены</p>';
-      pagination.hidePagination();
+      setActivePage('serchByName');
+      setCurrentQuert(query);
+      const data = await fetchByName(query);
+      const { results, total_pages } = data;
+      if (results.length === 0) {
+        return alert('По вашему запрсоу ничего не найденно');
+      }
+      if (results.length > 0) {
+        renderMoviesByPage(results);
+        pagination.updatePagination(total_pages || 1);
+        pagination.showPagination();
+      } else {
+        refs.main.innerHTML = '<p>Фильмы не найдены</p>';
+        pagination.hidePagination();
+      }
     }
+  } catch (error) {
+    console.log('Ошибка при загрузке данных:', error);
+  } finally {
+    refs.movieName.value = '';
   }
 }
 
@@ -194,13 +213,19 @@ async function initPagination() {
 }
 
 export function renderLibraryWatched() {
+  const queue = document.querySelector('.queue');
+  const watched = document.querySelector('.watch');
+  console.log(queue);
+
+  queue.classList.remove('button--primary');
+  watched.classList.add('button--primary');
+  if (activePage === 'Watched') return;
   if (!pagination) {
     console.error('Pagination is not initialized');
     return;
   }
 
-  const watchedList = getFromStorage('watchList') || []; // Добавляем fallback на случай, если список пуст
-  console.log(watchedList); // Проверяем, что данные извлекаются правильно
+  const watchedList = getFromStorage('watchList') || [];
 
   if (watchedList.length === 0) {
     console.warn('Watched list is empty');
@@ -209,47 +234,53 @@ export function renderLibraryWatched() {
     return;
   }
 
-  // Обновляем пагинацию для библиотеки
   pagination.updatePaginationForLibrary(watchedList);
-
-  // Отрисовываем фильмы для текущей страницы
   const moviesPerPage = 20;
   const startIndex = (pagination.currentPage - 1) * moviesPerPage;
   const endIndex = startIndex + moviesPerPage;
   const moviesToRender = watchedList.slice(startIndex, endIndex);
 
-  renderMovies(moviesToRender); // Отрисовываем фильмы
+  setActivePage('Watched');
+  renderMovies(moviesToRender);
 }
 
 export function renderLibraryQueue() {
+  const queue = document.querySelector('.queue');
+  const watched = document.querySelector('.watch');
+  console.log(activePage);
+
+  if (activePage === 'Queue') return;
+  queue.classList.add('button--primary');
+  watched.classList.remove('button--primary');
   if (!pagination) {
     console.error('Pagination is not initialized');
     return;
   }
 
   const queueList = getFromStorage('queueList') || [];
-  console.log(queueList);
   if (queueList.length === 0) {
     console.warn('Queue list is empty');
     refs.main.innerHTML = '<p>No movies in the queue list.</p>';
     pagination.hidePagination();
     return;
   }
-
   pagination.updatePaginationForLibrary(queueList);
-
+  console.log('Выполняется код тут', activePage);
   const moviesPerPage = 20;
   const startIndex = (pagination.currentPage - 1) * moviesPerPage;
   const endIndex = startIndex + moviesPerPage;
   const moviesToRender = queueList.slice(startIndex, endIndex);
 
   renderMovies(moviesToRender);
+  setActivePage('Queue');
 }
 
 refs.libraryControls.addEventListener('click', onLibraryControlsClick);
 
 function onLibraryControlsClick(e) {
   const button = e.target.closest('button');
+  const action = button.dataset.action;
+
   if (!button) return;
 
   refs.libraryControls
@@ -257,14 +288,10 @@ function onLibraryControlsClick(e) {
     .forEach(btn => btn.classList.remove('is-active'));
   button.classList.add('is-active');
 
-  const action = button.dataset.action;
-  console.log(action);
   if (action === 'watched') {
-    setActivePage('Watched'); // Обновляем activePage
-    renderLibraryWatched(); // Рендерим фильмы из "Watched"
+    renderLibraryWatched();
   } else if (action === 'queue') {
-    setActivePage('Queue'); // Обновляем activePage
-    renderLibraryQueue(); // Рендерим фильмы из "Queue"
+    renderLibraryQueue();
   }
 }
 
