@@ -42,6 +42,7 @@ function onModalClose(e) {
     refs.backdropAuth.classList.remove('active');
   }
 }
+
 refs.singUpForm.addEventListener('submit', function (e) {
   e.preventDefault();
   const password = document.getElementById('signup-password').value;

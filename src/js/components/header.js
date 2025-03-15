@@ -5,6 +5,8 @@ import { renderLibraryWatched } from './pagination/pagination';
 import { showLogIn } from '../utils/state';
 import { conditions } from '../utils/state';
 import { changeActivePage } from '../utils/state';
+
+
 refs.homeBtn.addEventListener('click', handleHomeClick);
 refs.libraryBtn.addEventListener('click', handleLibraryClick);
 refs.filmotekaTitle.addEventListener('click', onClickFilmoteka);

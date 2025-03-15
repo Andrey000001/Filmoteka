@@ -6,7 +6,9 @@ import '../../src/assets/sass/main.scss';
 // Header
 import './components/header';
 //Main
-import './components/main';
+import '../js/api/moviesApi.js';
+import '../js/render/renderMain.js';
+
 // Modal
 import './components/movieModal';
 //Plagination

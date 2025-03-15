@@ -4,8 +4,9 @@ import { fetchByName } from '../../api/moviesApi';
 import refs from '../../utils/refs';
 import { renderMovies } from '../../render/renderMain';
 import { getFromStorage } from '../../utils/storage';
-import { activePage, getActivePage, setActivePage } from '../../utils/state';
+import { activePage, setActivePage } from '../../utils/state';
 import { getCurrentQuery, setCurrentQuert } from '../../utils/storage';
+
 export let pagination;
 
 class Pagination {
@@ -42,29 +43,24 @@ class Pagination {
       start = Math.max(1, this.totalPages - 2 * range);
     }
 
-    // Кнопка "влево" (если не на первой странице)
     if (this.currentPage > 1) {
-      buttons.push(this.createPageButton(this.currentPage - 1, '←')); // Стрелка влево
+      buttons.push(this.createPageButton(this.currentPage - 1, '←'));
     }
 
-    // Первая страница
     if (start > 1) {
       buttons.push(this.createPageButton(1));
       if (start > 2) buttons.push(this.createEllipsis());
     }
 
-    // Страницы в диапазоне
     for (let i = start; i <= end; i++) {
       buttons.push(this.createPageButton(i));
     }
 
-    // Последняя страница
     if (end < this.totalPages) {
       if (end < this.totalPages - 1) buttons.push(this.createEllipsis());
       buttons.push(this.createPageButton(this.totalPages));
     }
 
-    // Кнопка "вправо" (если не на последней странице)
     if (this.currentPage < this.totalPages) {
       buttons.push(this.createPageButton(this.currentPage + 1, '→'));
     }
@@ -75,7 +71,7 @@ class Pagination {
   createPageButton(pageNumber, text = null) {
     const button = document.createElement('button');
     button.classList.add('page-button');
-    button.textContent = text !== null ? text : pageNumber; // Если текст передан, используем его, иначе номер страницы
+    button.textContent = text !== null ? text : pageNumber;
     button.dataset.page = pageNumber;
     button.addEventListener('click', () => this.handleClickButton(pageNumber));
     if (pageNumber === this.currentPage) {
@@ -215,7 +211,6 @@ async function initPagination() {
 export function renderLibraryWatched() {
   const queue = document.querySelector('.queue');
   const watched = document.querySelector('.watch');
-  console.log(queue);
 
   queue.classList.remove('button--primary');
   watched.classList.add('button--primary');
@@ -280,13 +275,6 @@ refs.libraryControls.addEventListener('click', onLibraryControlsClick);
 function onLibraryControlsClick(e) {
   const button = e.target.closest('button');
   const action = button.dataset.action;
-
-  if (!button) return;
-
-  refs.libraryControls
-    .querySelectorAll('button')
-    .forEach(btn => btn.classList.remove('is-active'));
-  button.classList.add('is-active');
 
   if (action === 'watched') {
     renderLibraryWatched();

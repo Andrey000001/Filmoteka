@@ -47,7 +47,6 @@ const mapMovieData = (movie, genreMap) => {
   };
 };
 
-// Получение всех фильмов за неделю
 export const fetchAllMovies = async (page = 1) => {
   const resp = await fetch(
     `${BASE_URL}/trending/all/week?language=en-US&page=${page}`,
@@ -68,7 +67,6 @@ export const fetchMovieById = async id => {
   return await resp.json();
 };
 
-// Поиск фильмов по названию
 export const fetchByName = async (query, page = 1) => {
   const resp = await fetch(
     `${BASE_URL}/search/movie?query=${query}&page=${page}`,
@@ -90,7 +88,6 @@ export const fetchByName = async (query, page = 1) => {
   };
 };
 
-// Получение фильмов с жанрами
 export const fetchMovieWithGenres = async (page = 1) => {
   const [movies, genres] = await Promise.all([
     fetchAllMovies(page),
@@ -103,15 +100,9 @@ export const fetchMovieWithGenres = async (page = 1) => {
   }
 
   const genreMap = new Map(genres.map(g => [g.id, g.name]));
-
-  // if (Array.isArray(data) && data.length > 0) {
-  //   return data.map(movie => mapMovieData(movie, genreMap));
-  // }
-
   return movies.results.map(movie => mapMovieData(movie, genreMap));
 };
 
-// Получение фильмов по нескольким ID с жанрами
 export const fetchMoviesByIdsWithGenres = async ids => {
   console.log(ids);
 
@@ -126,7 +117,6 @@ export const fetchMoviesByIdsWithGenres = async ids => {
   return data.map(movie => mapMovieData(movie, genreMap));
 };
 
-// Получение фильма с жанрами по ID
 export const fetchMovieByIdWithGenres = async id => {
   const data = await fetchMovieById(id);
 
@@ -140,7 +130,6 @@ export const fetchMovieByIdWithGenres = async id => {
   return { ...data, genreNames };
 };
 
-// Получение видео по ID фильма
 export const fetchVideoByMovie = async id => {
   try {
     const resp = await fetch(

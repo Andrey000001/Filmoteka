@@ -6,6 +6,7 @@ import {
 } from '../api/moviesApi';
 import { fetchAllMovies } from '../api/moviesApi';
 import { pagination } from '../components/pagination/pagination';
+
 renderAllMovies();
 
 export async function renderAllMovies() {
@@ -21,6 +22,7 @@ export async function renderAllMovies() {
     pagination.showPagination();
   }
 }
+
 export async function renderMoviesByPage(data) {
   refs.main.innerHTML = mainTpl(data);
 }

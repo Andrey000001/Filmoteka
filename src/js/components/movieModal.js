@@ -81,7 +81,6 @@ export async function onClickMovie(e) {
       }
     } catch (error) {
       console.error('Error in onClickMovie:', error);
-      // Здесь можно добавить отображение сообщения об ошибке в модальном окне
       refs.modalContent.innerHTML =
         '<p>Error loading movie data. Please try again later.</p>';
       refs.backdrop.classList.add('is-open');
